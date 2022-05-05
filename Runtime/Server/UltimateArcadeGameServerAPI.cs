@@ -12,9 +12,14 @@ namespace UltimateArcade.Server
         {
         }
 
-        public Task Init()
+        public Task<ServerData> Init()
         {
-            // get token from environment or pod annotation etc
+            // get token from environment or pod annotation etc and store it in instance
+        }
+
+        // you need to wait for this call to finish before exiting
+        public Task Shutdown()
+        {
         }
 
         public Task<PlayerInfo> ActivateUser(string playerToken)
@@ -24,6 +29,26 @@ namespace UltimateArcade.Server
             // * userID
             // * server info (game, serverid)
         }
+
+        public Task<PlayerInfo> SettleUserWithScore(string playerToken, int score)
+        {
+        }
+    }
+
+    public class Debug
+    {
+        // NOTE: we'll log all SDK interactions, so you don't have to
+        public static void Log(object message)
+        {
+        }
+        public static void Log(object message, Object context)
+        {
+        }
+    }
+
+    public class ServerData
+    {
+        public string RandomSeed { get; set; }
     }
 
     public class PlayerInfo
