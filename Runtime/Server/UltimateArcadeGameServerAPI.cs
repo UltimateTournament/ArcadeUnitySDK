@@ -33,6 +33,11 @@ namespace UltimateArcade.Server
         public Task<PlayerInfo> SettleUserWithScore(string playerToken, int score)
         {
         }
+
+        // report game-spefic metrics/events, like "player.joined", "player.found-secret", ...
+        public void ReportKPI(string eventID, Dictionary<string,object> data)
+        {
+        }
     }
 
     public class Debug
