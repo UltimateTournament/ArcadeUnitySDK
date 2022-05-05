@@ -4,6 +4,8 @@
 
 This is the Unity SDK for integrating games (servers and frontends) into the Ultimate Arcade.
 
+![arcade and game interaction flow diagram](./interaction-flow.png)
+
 ## Installation
 
 ### Using Git
