@@ -14,7 +14,7 @@ namespace UltimateArcade.Server
 
         public Task<ServerData> Init()
         {
-            // get token from environment or pod annotation etc and store it in instance
+            // get server token from environment or pod annotation etc and store it in instance
         }
 
         // you need to wait for this call to finish before exiting
