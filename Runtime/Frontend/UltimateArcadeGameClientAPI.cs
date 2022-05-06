@@ -27,6 +27,10 @@ namespace UltimateArcade.Frontend
         }
     }
 
+    // will be thrown when trying to call any client methods while the token is expired.
+    // when this happens the user should be redirected to the arcade launcher
+    public class TokenExpiredException : Exception {}
+
     public class UserInfo
     {
         public string Name { get; set; }
