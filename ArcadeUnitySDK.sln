@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32519.379
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arcade.UnitySDK.Frontend", "Runtime\Frontend\Arcade.UnitySDK.Frontend.csproj", "{BF5BEAB7-D550-4D83-9DFE-F80164C0E8F2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arcade.UnitySDK.Server", "Runtime\Server\Arcade.UnitySDK.Server.csproj", "{C6808BD2-382D-4D51-B020-A5292778E232}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BF5BEAB7-D550-4D83-9DFE-F80164C0E8F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF5BEAB7-D550-4D83-9DFE-F80164C0E8F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF5BEAB7-D550-4D83-9DFE-F80164C0E8F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF5BEAB7-D550-4D83-9DFE-F80164C0E8F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6808BD2-382D-4D51-B020-A5292778E232}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6808BD2-382D-4D51-B020-A5292778E232}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6808BD2-382D-4D51-B020-A5292778E232}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6808BD2-382D-4D51-B020-A5292778E232}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5082B9C6-3D2F-4343-A28C-56775F7AF936}
+	EndGlobalSection
+EndGlobal
