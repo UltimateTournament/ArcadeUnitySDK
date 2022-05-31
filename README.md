@@ -15,6 +15,12 @@ other parts of the system, what actions can be performed.
 * The Game Token is returned as a result from matchmaking and grants permission to play exactly once on a specific server
 * The Server Token is handled transparently by the and is just listed for completeness. It ensure server and game token match up. 
 
+## Using it
+
+### Server Side
+
+* Ensure you're listening with TCP (WebSockets) on the port that is set in the `PORT` environment variable
+
 ## Installation
 
 ### Using Git
@@ -24,11 +30,7 @@ other parts of the system, what actions can be performed.
 - Select `Add package from git URL...`
 - Paste the following URL `https://github.com/UltimateTournament/ArcadeUnitySDK.git` and click `Add`
 
-## Configuration
-
-TODO
-
-## Updating
+### Updating
 
 If you installed the SDK using the Git URL you can simply open the package manager and re-paste the Git URL.
 This should force a download of the latest code.
