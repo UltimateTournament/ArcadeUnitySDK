@@ -30,7 +30,18 @@ namespace UltimateArcade.Server
             // * server info (game, serverid)
         }
 
-        public Task<PlayerInfo> SettleUserWithScore(string playerToken, int score)
+        // should be called for all players in leaderboard games
+        public Task FinishSessionWithScore(string playerToken, int score)
+        {
+        }
+
+        // should be called when a user loses against another player in a non-leaderboard game
+        public Task FinishSessionWithLoss(string loserPlayerToken, string winnerPlayerToken)
+        {
+        }
+
+        // should be called when a user leaves a non-leaderboard game without losing
+        public Task FinishSession(string playerToken)
         {
         }
 

@@ -9,11 +9,19 @@ namespace UltimateArcade.Frontend
     {
         // baseServerName would be "staging.ultimatearcade.io" or "ultimatearcade.io"
         // userToken is game specific and depending on hosting method can be provided via different channels
-        public UltimateArcadeGameClientAPI(string userToken, string baseServerName)
+        public UltimateArcadeGameClientAPI(string gameToken, string baseServerName)
+        {
+        }
+
+        public Task<GameInfo> GetGameInfo()
         {
         }
 
         public Task<UserInfo> GetUserInfo()
+        {
+        }
+
+        public Task CloseGame()
         {
         }
     }
@@ -27,5 +35,10 @@ namespace UltimateArcade.Frontend
         public string Name { get; set; }
         public string Tokens { get; set; }
         //TODO game-sepcific data like skin etc
+    }
+
+    public class GameInfo
+    {
+        public string ServerAddress { get; set; }
     }
 }
