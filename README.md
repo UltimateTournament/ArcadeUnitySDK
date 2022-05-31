@@ -8,12 +8,11 @@ The following diagram shows how the SDK is expected to be used, both on the clie
 
 ![arcade and game interaction flow diagram](./interaction-flow.png)
 
-There are several tokens (which are just random strings for all that a user of the SDK has to care) which prove to
+There are several tokens (JWTs, but you can treat them as opaque strings) which prove to
 other parts of the system, what actions can be performed.
 
-* The User Token gets passed from the Arcade Launcher to the game's website where it has to be passed into the SDK
-* The Game Token is returned as a result from matchmaking and grants permission to play exactly once on a specific server
-* The Server Token is handled transparently by the and is just listed for completeness. It ensure server and game token match up. 
+* The **Match Token** gets passed from the Arcade Launcher to the game's website where it has to be passed into the SDK and grants permission to play exactly once on a specific server
+* The **Server Token** is handled transparently by the SDK and is just listed for completeness. It ensure server and game token match up. 
 
 ## Using it
 
