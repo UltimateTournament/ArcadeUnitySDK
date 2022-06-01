@@ -1,0 +1,13 @@
+syntax = "proto3";
+option go_package = "./pb";
+option csharp_namespace = "ArcadeSlipManager";
+
+message GiveBonusReq {
+  string playerID = 1;
+  string game = 2;
+  string note = 3;
+  int64 tokens = 4;
+}
+
+message GiveBonusRes {
+}

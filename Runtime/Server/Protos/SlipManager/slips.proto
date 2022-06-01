@@ -1,0 +1,95 @@
+syntax = "proto3";
+option go_package = "./pb";
+option csharp_namespace = "ArcadeSlipManager";
+
+message HeartbeatSlipReq {
+  string playerID = 1;
+  string slipID = 2;
+
+  // The time added to now to set the TTL
+  int64 seconds = 3;
+}
+
+message SlipDefeatedReq {
+  string defeatedPlayerID = 1;
+  string defeatedSlipID = 2;
+
+  string winningPlayerID = 3;
+  string winningPlayerSlipID = 4;
+}
+
+message SlipDefeatedRes {
+  // How much commission was taken (will be 0 for pooled slips)
+  int64 commission = 1;
+
+  // How many tokens were moved (will be entire slip value for pooled slips)
+  int64 transferred = 2;
+}
+
+message ReturnSlipReq {
+  string slipID = 1;
+  string playerID = 2;
+  string note = 3;
+}
+
+message CreateSlipForPoolReq {
+  string poolID = 1;
+  string playerID = 2;
+
+  // How many seconds after creation will it TTL
+  int64 ttl = 3;
+}
+
+message CreateSlipForLeaderboardReq {
+  string leaderboardID = 1;
+  string playerID = 2;
+  string server = 3;
+
+  // How many seconds after creation will it TTL
+  int64 ttl = 4;
+}
+
+message CreateSlipReq{
+  string playerID = 1;
+  int64 tokens = 2;
+  string game = 3;
+  string server = 4;
+
+  // How many seconds after creation will it TTL
+  int64 ttl = 5;
+}
+
+message CreateSlipRes {
+  string slipID = 1;
+}
+
+message ActivateSlipReq{
+  string slipID = 1;
+  string playerID = 2;
+  string server = 3;
+}
+
+message ActivateSlipRes{
+}
+
+message SlipSelfDefeatedReq{
+  string slipID = 1;
+  string playerID = 2;
+}
+
+message SlipSelfDefeatedRes{
+  // How much commission was taken
+  int64 commission = 1;
+  int64 tokensLost = 2;
+}
+
+message SettleSlipReq{
+  string slipID = 1;
+  string playerID = 2;
+  string gameID = 3;
+  int64 lobbyPrice = 4;
+}
+
+message SettleSlipRes{
+  int64 tokensWon = 1;
+}

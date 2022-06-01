@@ -1,0 +1,53 @@
+syntax = "proto3";
+option go_package = "./pb";
+option csharp_namespace = "ArcadeSlipManager";
+
+message CreatePoolReq {
+  // How many seconds after now will the created pool TTL
+  int64 ttl = 1;
+
+  string serverID = 2;
+  string gameID = 3;
+  int64 lobbyPrice = 4;
+}
+
+message CreatePoolRes {
+  string poolID = 1;
+}
+
+message LockPoolRes {
+  // for backward compat
+  bool applied = 1;
+
+  int64 tokens = 2;
+}
+
+message SettlePoolReq {
+  string poolID = 1;
+  string playerID = 2;
+  string slipID = 3;
+}
+
+message SettlePoolRes {
+  repeated string winnerPlayerID = 1;
+  repeated string winnerSlipID = 2;
+  repeated int64 wonTokens = 3;
+}
+
+message ReturnPoolReq {
+  string poolID = 1;
+
+  // Public note that will be added on to each of the slips
+  string note = 2;
+}
+
+message LockPoolReq {
+  string poolID = 1;
+}
+
+message HeartbeatPoolReq {
+  string poolID = 1;
+  
+  // number of seconds to extend TTL from now
+  int64 ttlExtSecs = 2;
+}
