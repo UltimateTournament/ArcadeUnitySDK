@@ -1,0 +1,29 @@
+name: Bump version
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: '0'
+    - name: Inject insteadOf configuration
+      env:
+        PRIVATE_GITHUB_TOKEN: ${{ secrets.PRIVATE_GITHUB_TOKEN }}
+      run: |
+        git config --global url."https://x-oauth-basic:${PRIVATE_GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/"
+    - name: Bump version and push tag
+      uses: anothrNick/github-tag-action@1.36.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        WITH_V: true
+        DEFAULT_BUMP: patch
+    - name: Run GoReleaser
+      uses: goreleaser/goreleaser-action@v2
+      with:
+        args: release --rm-dist
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
