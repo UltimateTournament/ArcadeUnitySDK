@@ -16,12 +16,4 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Protobuf Include="Protos\SlipManager\bonus.proto" GrpcServices="Client" />
-    <Protobuf Include="Protos\SlipManager\leaderboards.proto" GrpcServices="Client" />
-    <Protobuf Include="Protos\SlipManager\pools.proto" GrpcServices="Client" />
-    <Protobuf Include="Protos\SlipManager\slipmanager.proto" GrpcServices="Client" />
-    <Protobuf Include="Protos\SlipManager\slips.proto" GrpcServices="Client" />
-  </ItemGroup>
-
 </Project>

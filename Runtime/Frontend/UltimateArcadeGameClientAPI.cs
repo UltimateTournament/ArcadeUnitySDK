@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections;
-using UnityEngine;
 using UnityEngine.Networking;
 
 namespace UltimateArcade.Frontend
@@ -21,7 +21,7 @@ namespace UltimateArcade.Frontend
         public GameInfo GetGameInfo()
         {
             string tokenJson = System.Text.Encoding.Default.GetString(Convert.FromBase64String(this.gameToken.Split('.')[1]));
-            var address = JsonUtility.FromJson<serverInfo>(tokenJson).Address;
+            var address = JsonConvert.DeserializeObject<serverInfo>(tokenJson).Address;
             return new GameInfo { ServerAddress = address };
         }
 
@@ -42,7 +42,7 @@ namespace UltimateArcade.Frontend
                         errorCallback("HTTP Error: " + webReq.error);
                         break;
                     case UnityWebRequest.Result.Success:
-                        callback(JsonUtility.FromJson<UserInfo>(webReq.downloadHandler.text));
+                        callback(JsonConvert.DeserializeObject<UserInfo>(webReq.downloadHandler.text));
                         break;
                 }
             }
@@ -55,7 +55,7 @@ namespace UltimateArcade.Frontend
 
     class serverInfo
     {
-        [Newtonsoft.Json.JsonProperty(PropertyName = "addr")]
+        [JsonProperty(PropertyName = "addr")]
         public string Address { get; set; }
     }
 

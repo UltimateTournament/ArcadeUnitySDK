@@ -4,3 +4,5 @@
 [Bb]in
 [Bb]uild
 [Bb]uilds
+*.csproj
+*.sln

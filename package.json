@@ -1,13 +1,13 @@
 {
   "name": "io.ultimatearcade.unitysdk",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "displayName": "Ultimate Arcade",
   "description": "Ultimate Arcade SDK",
   "unity": "2019.2",
   "author": {
     "name": "Ultimate Arcade"
   },
-  "type": "tool",
+  "type": "library",
   "dependencies": {
     "com.unity.nuget.newtonsoft-json": "2.0.0"
   }
