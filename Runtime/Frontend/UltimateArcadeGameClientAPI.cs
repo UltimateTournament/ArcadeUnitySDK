@@ -48,9 +48,6 @@ namespace UltimateArcade.Frontend
             }
         }
 
-        public void CloseGame()
-        {
-        }
     }
 
     class serverInfo

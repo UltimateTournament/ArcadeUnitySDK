@@ -4,6 +4,7 @@ using UnityEngine.Networking;
 using Arcade.UnitySDK.Server.Model;
 using System.Text;
 using Newtonsoft.Json;
+using UnityEngine;
 
 namespace UltimateArcade.Server
 {
@@ -18,7 +19,7 @@ namespace UltimateArcade.Server
 
         public IEnumerator<UnityWebRequestAsyncOperation> Init(Action<ServerData> callback, Action<string> errorCallback)
         {
-            return httpCall("GET", "/api/server", null, null, webReq => JsonConvert.DeserializeObject<ServerData>(webReq.downloadHandler.text), errorCallback);
+            return httpCall("GET", "/api/server", null, null, webReq => callback(JsonConvert.DeserializeObject<ServerData>(webReq.text)), errorCallback);
         }
 
         public IEnumerator<UnityWebRequestAsyncOperation> Shutdown(Action callback, Action<string> errorCallback)
@@ -26,9 +27,9 @@ namespace UltimateArcade.Server
             return httpCall("POST", "/api/server/shutdown", null, null, _ => callback(), errorCallback);
         }
 
-        public IEnumerator<UnityWebRequestAsyncOperation> ActivatePlayer(string playerToken, Action callback, Action<string> errorCallback)
+        public IEnumerator<UnityWebRequestAsyncOperation> ActivatePlayer(string playerToken, Action<PlayerInfo> callback, Action<string> errorCallback)
         {
-            return httpCall("POST", "/api/player/activate", playerToken, null, _ => callback(), errorCallback);
+            return httpCall("POST", "/api/player/activate", playerToken, null, webReq => callback(JsonConvert.DeserializeObject<PlayerInfo>(webReq.text)), errorCallback);
         }
 
         /// <summary>
@@ -110,10 +111,12 @@ namespace UltimateArcade.Server
             return httpCall("POST", "/api/pool/settle", null, body, _ => callback(), errorCallback);
         }
 
-        private IEnumerator<UnityWebRequestAsyncOperation> httpCall(string method, string path, string authToken, object body, Action<UnityWebRequest> callback, Action<string> errorCallback)
+        private IEnumerator<UnityWebRequestAsyncOperation> httpCall(string method, string path, string authToken, object body, Action<DownloadHandlerBuffer> callback, Action<string> errorCallback)
         {
             using (var webReq = new UnityWebRequest(this.apiAddr + path, method))
             {
+                var dl = new DownloadHandlerBuffer();
+                webReq.downloadHandler = dl;
                 if (authToken != null)
                 {
                     webReq.SetRequestHeader("Authorization", "Bearer " + authToken);
@@ -130,10 +133,8 @@ namespace UltimateArcade.Server
                 {
                     case UnityWebRequest.Result.ConnectionError:
                     case UnityWebRequest.Result.DataProcessingError:
-                        errorCallback("Error: " + webReq.error);
-                        break;
                     case UnityWebRequest.Result.ProtocolError:
-                        errorCallback("HTTP Error: " + webReq.error);
+                        errorCallback("Error: " + webReq.error);
                         break;
                     case UnityWebRequest.Result.Success:
                         if (webReq.responseCode >= 400)
@@ -142,13 +143,13 @@ namespace UltimateArcade.Server
                         }
                         else
                         {
-                            callback(webReq);
+                            UADebug.Log("got response: " + webReq.downloadedBytes);
+                            callback(dl);
                         }
                         break;
                 }
             }
         }
-
     }
 
     class playerToken
@@ -160,14 +161,16 @@ namespace UltimateArcade.Server
         public string SlipID { get; set; }
     }
 
-    public class Debug
+    public class UADebug
     {
         // NOTE: we'll log all SDK interactions, so you don't have to
         public static void Log(object message)
         {
+            Debug.Log(message);
         }
-        public static void Log(object message, Object context)
+        public static void Log(object message, UnityEngine.Object context)
         {
+            Debug.Log(message, context);
         }
     }
 

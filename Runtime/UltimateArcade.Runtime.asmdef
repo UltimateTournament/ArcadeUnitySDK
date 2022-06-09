@@ -1,0 +1,18 @@
+{
+    "name": "UltimateArcade",
+    "rootNamespace": "",
+    "references": [
+        "Newtonsoft.Json",
+		"Mirror",
+		"SimpleWebTransport"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
