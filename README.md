@@ -41,3 +41,7 @@ When adding/updating protobuf files, remember to
 * keep the C#-specific properties (namespace)
 * fix relative paths to match this repo
 * update the .csproj file for additions/deletions
+
+## Delivering the Game
+
+* ensure to include a Dockerfile in your shipment. An example that should work with most games is included in this repo.
