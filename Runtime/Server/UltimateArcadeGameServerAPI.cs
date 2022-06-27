@@ -5,6 +5,7 @@ using Arcade.UnitySDK.Server.Model;
 using System.Text;
 using Newtonsoft.Json;
 using UnityEngine;
+using Assets.Scripts.Core;
 
 namespace UltimateArcade.Server
 {
@@ -166,11 +167,19 @@ namespace UltimateArcade.Server
         // NOTE: we'll log all SDK interactions, so you don't have to
         public static void Log(object message)
         {
+#if UNITY_WEBGL
+            ExternalScriptBehavior.Log(message.ToString());
+#else
             Debug.Log(message);
+#endif
         }
         public static void Log(object message, UnityEngine.Object context)
         {
+#if UNITY_WEBGL
+            ExternalScriptBehavior.Log(message.ToString());
+#else
             Debug.Log(message, context);
+#endif
         }
     }
 
