@@ -10,10 +10,58 @@ using System.Collections;
 
 public class AutoConnect : MonoBehaviour
 {
-#if UNITY_WEBGL && !UNITY_EDITOR
+
+    /// <summary>
+    // use this seed to derive all randomness in your game to guarantee
+    // that all players have the same fair experience
+    /// </summary>
+    public static string RandomSeed { get; set; }
+
+    public static string PlayerToken { get; set; }
+
+    public delegate void ClientReady(string token);
+    private static ClientReady _clientReady;
+    public static event ClientReady OnClientReady
+    {
+        add
+        {
+            _clientReady += value;
+            if (!string.IsNullOrEmpty(PlayerToken))
+            {
+                value(PlayerToken);
+            }
+        }
+        remove 
+        {
+            _clientReady -= value;
+        }
+    }
+
+    public delegate void ServerReady(string seed);
+    private static ServerReady _serverReady;
+    public static event ServerReady OnServerReady
+    {
+        add
+        {
+            _serverReady += value;
+            if (!string.IsNullOrEmpty(RandomSeed))
+            {
+                value(RandomSeed);
+            }
+        }
+        remove
+        {
+            _serverReady -= value;
+        }
+    }
+
+
+#if UNITY_WEBGL
 
     void Start()
     {
+        StartCoroutine(this.initClient(0));
+
         var nm = this.GetComponent<NetworkManager>();
         var swt = this.GetComponent<SimpleWebTransport>();
         swt.sslEnabled = ExternalScriptBehavior.IsSecure();
@@ -22,17 +70,25 @@ public class AutoConnect : MonoBehaviour
         nm.StartClient();
     }
 
+    private IEnumerator initClient(float waitTime)
+    {
+        UADebug.Log("waiting for token");
+        yield return new WaitForSeconds(waitTime);
+        PlayerToken = ExternalScriptBehavior.Token();
+        if (string.IsNullOrEmpty(PlayerToken))
+        {
+            StartCoroutine(this.initClient(0.1f));
+        }
+        else
+        {
+            UADebug.Log("got token "+ PlayerToken);
+            _clientReady?.Invoke(PlayerToken);
+        }
+    }
+
 #else
 
     private UltimateArcadeGameServerAPI api; 
-    public delegate void ServerReady();
-    public static event ServerReady OnServerReady;
-
-    /// <summary>
-    // use this seed to derive all randomness in your game to guarantee
-    // that all players have the same fair experience
-    /// </summary>
-    public static string RandomSeed { get; set; }
 
     void Start()
     {
@@ -57,8 +113,9 @@ public class AutoConnect : MonoBehaviour
 
     private void onServerReady(ServerData obj)
     {
-        UADebug.Log("random seed: "+obj.RandomSeed);
-        OnServerReady();
+        UADebug.Log("random seed: " + obj.RandomSeed);
+        RandomSeed = obj.RandomSeed;
+        _serverReady?.Invoke(RandomSeed);
     }
 
     private void onServerNotReady(string obj)

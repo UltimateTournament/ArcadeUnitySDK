@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Runtime.InteropServices;
+using System.Threading;
 using UnityEngine;
 
 
@@ -35,6 +36,7 @@ namespace Assets.Scripts.Core
         {
             Debug.Log("close game");
         }
+ 
         public static void Log(string str)
         {
             Debug.Log(str);

@@ -10,7 +10,7 @@ mergeInto(LibraryManager.library, {
 		// we're not in an iframe
 		alert("Game Ended!");
 	} else {
-		window.parent.postMessage({"msg":"closeGame"}, '*');
+		window.parent.postMessage({"msg":"gameOver"}, '*');
 	}
 	window.close();
   },
@@ -28,7 +28,17 @@ mergeInto(LibraryManager.library, {
   },
 
   Token: function () {
-	var returnStr = prompt("Enter player token", "");
+	if (!window.uaPlayerTokenInit) {
+		window.uaPlayerTokenInit = true;
+		window.uaPlayerToken = "";
+		window.onmessage = (e) => {
+			if (e.data.token) {
+				window.uaPlayerToken = e.data.token;
+			}
+		}
+		window.top.postMessage({ msg: 'requestToken' }, '*')
+	}
+	var returnStr = window.uaPlayerToken || "";
 	var bufferSize = lengthBytesUTF8(returnStr) + 1;
 	var buffer = _malloc(bufferSize);
 	stringToUTF8(returnStr, buffer, bufferSize);
@@ -36,8 +46,10 @@ mergeInto(LibraryManager.library, {
   },
 
   BaseApiServerName: function () {
-	console.log("TODO get server name from iframe parent");
-	var returnStr = "staging.ultimatearcade.io";
+	var returnStr = "ultimatearcade.io";
+	if (/staging/.test(window.location.hostname)) {
+		returnStr = "staging." + returnStr;
+	}
 	var bufferSize = lengthBytesUTF8(returnStr) + 1;
 	var buffer = _malloc(bufferSize);
 	stringToUTF8(returnStr, buffer, bufferSize);
