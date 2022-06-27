@@ -11,13 +11,12 @@ using Newtonsoft.Json;
 
 namespace Arcade.UnitySDK.Server.Model
 {
-    public partial class PlayerInfo 
+    public partial class PlayerInfo
     {
-        /// <summary>
-        /// Gets or Sets RandomSeed
-        /// </summary>pool_id
         [JsonProperty(PropertyName = "display_name")]
         public string DisplayName { get; set; }
 
+        [JsonProperty(PropertyName = "player_id")]
+        public string PlayerID { get; set; }
     }
 }
