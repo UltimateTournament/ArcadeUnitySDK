@@ -14,6 +14,9 @@ namespace Assets.Scripts.Core
         public static extern void Log(string str);
 
         [DllImport("__Internal")]
+        public static extern void ReportErrorAndCloseGame(string reason);
+
+        [DllImport("__Internal")]
         public static extern bool IsSecure();
 
         [DllImport("__Internal")]
@@ -35,6 +38,11 @@ namespace Assets.Scripts.Core
         public static void CloseGame()
         {
             Debug.Log("close game");
+        }
+ 
+        public static void ReportErrorAndCloseGame(string reason)
+        {
+            Debug.Log("error closing game: " + reason);
         }
  
         public static void Log(string str)

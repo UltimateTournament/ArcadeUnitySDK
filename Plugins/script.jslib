@@ -15,6 +15,17 @@ mergeInto(LibraryManager.library, {
 	window.close();
   },
 
+  ReportErrorAndCloseGame: function (reason) {
+	console.log("closing game");
+	if (window.self === window.parent) {
+		// we're not in an iframe
+		alert("Game ended with error!\n", reason);
+	} else {
+		window.parent.postMessage({msg:"gameError", reason:UTF8ToString(reason)}, '*');
+	}
+	window.close();
+  },
+
   IsSecure: function () {
 	return window.location.protocol === "https:";
   },
