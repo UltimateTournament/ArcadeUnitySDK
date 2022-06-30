@@ -39,6 +39,11 @@ mergeInto(LibraryManager.library, {
   },
 
   Token: function () {
+	var returnStr = window.uaPlayerToken || "";
+	if (window.self === window.parent) {
+		// we're not in an iframe
+		returnStr = "dummy-token";
+	}
 	if (!window.uaPlayerTokenInit) {
 		window.uaPlayerTokenInit = true;
 		window.uaPlayerToken = "";
@@ -49,7 +54,6 @@ mergeInto(LibraryManager.library, {
 		}
 		window.top.postMessage({ msg: 'requestToken' }, '*')
 	}
-	var returnStr = window.uaPlayerToken || "";
 	var bufferSize = lengthBytesUTF8(returnStr) + 1;
 	var buffer = _malloc(bufferSize);
 	stringToUTF8(returnStr, buffer, bufferSize);
