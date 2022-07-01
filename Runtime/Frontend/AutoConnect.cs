@@ -67,12 +67,13 @@ public class AutoConnect : MonoBehaviour
         swt.sslEnabled = ExternalScriptBehavior.IsSecure();
         swt.port = (ushort)ExternalScriptBehavior.Port();
         nm.networkAddress = ExternalScriptBehavior.Hostname();
+        UADebug.Log("Will connect to " + nm.networkAddress + ":" + swt.port);
         nm.StartClient();
     }
 
     private IEnumerator initClient(float waitTime)
     {
-        UADebug.Log("waiting for token");
+        UADebug.Log("Waiting for token");
         yield return new WaitForSeconds(waitTime);
         PlayerToken = ExternalScriptBehavior.Token();
         if (string.IsNullOrEmpty(PlayerToken))
