@@ -15,6 +15,16 @@ mergeInto(LibraryManager.library, {
 	window.close();
   },
 
+  StoreSettings: function (settings) {
+	if (window.self === window.parent) {
+		// we're not in an iframe
+		window.localStorage.setItem("game-settings", JSON.stringify(settings))
+	} else {
+		window.parent.postMessage({msg:"storeSettings", reason:UTF8ToString(settings)}, '*');
+	}
+	window.close();
+  },
+
   ReportErrorAndCloseGame: function (reason) {
 	console.log("closing game");
 	if (window.self === window.parent) {
@@ -53,6 +63,28 @@ mergeInto(LibraryManager.library, {
 			}
 		}
 		window.top.postMessage({ msg: 'requestToken' }, '*')
+	}
+	var bufferSize = lengthBytesUTF8(returnStr) + 1;
+	var buffer = _malloc(bufferSize);
+	stringToUTF8(returnStr, buffer, bufferSize);
+	return buffer;
+  },
+
+  Settings: function () {
+	var returnStr = window.uaPlayerSettings || "{}";
+	if (window.self === window.parent) {
+		// we're not in an iframe
+		returnStr = window.localStorage.getItem("game-settings") ?? "{}";
+	}
+	if (!window.uaPlayerSettingsInit) {
+		window.uaPlayerSettingsInit = true;
+		window.uaPlayerSettings = "";
+		window.onmessage = (e) => {
+			if (e.data.msg === 'settings') {
+				window.uaPlayerSettings = e.data.settings;
+			}
+		}
+		window.top.postMessage({ msg: 'requestSettings' }, '*')
 	}
 	var bufferSize = lengthBytesUTF8(returnStr) + 1;
 	var buffer = _malloc(bufferSize);

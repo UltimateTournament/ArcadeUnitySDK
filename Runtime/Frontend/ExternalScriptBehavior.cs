@@ -28,6 +28,13 @@ namespace Assets.Scripts.Core
         public static extern void ReportErrorAndCloseGame(string reason);
 
         /// <summary>
+        /// Stores a string (e.g. a JSON) to the user state for retrieval in other sessions.
+        /// </summary>
+        /// <param name="reason"></param>
+        [DllImport("__Internal")]
+        public static extern void StoreSettings(string settings);
+
+        /// <summary>
         /// If the game is running on HTTP<b>S</b>
         /// </summary>
         /// <returns></returns>
@@ -42,11 +49,18 @@ namespace Assets.Scripts.Core
         public static extern string Hostname();
 
         /// <summary>
-        /// The player's authentication token
+        /// The player's authentication token. This is filled asynchronously and therefore must be retried when empty.
         /// </summary>
         /// <returns></returns>
         [DllImport("__Internal")]
         public static extern string Token();
+
+        /// <summary>
+        /// The player's stringified settings. This is filled asynchronously and therefore must be retried when empty.
+        /// </summary>
+        /// <returns></returns>
+        [DllImport("__Internal")]
+        public static extern string Settings();
 
         /// <summary>
         /// Port to connect to
@@ -74,6 +88,10 @@ namespace Assets.Scripts.Core
         {
             Debug.Log("close game");
         }
+        
+        public static void StoreSettings(string settings)
+        {
+        }
  
         public static void ReportErrorAndCloseGame(string reason)
         {
@@ -95,6 +113,10 @@ namespace Assets.Scripts.Core
         public static string Token()
         {
             return "";
+        }
+        public static string Settings()
+        {
+            return "{}";
         }
         public static string BaseApiServerName()
         {
