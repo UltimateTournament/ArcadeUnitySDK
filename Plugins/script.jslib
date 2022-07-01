@@ -74,7 +74,7 @@ mergeInto(LibraryManager.library, {
 	var returnStr = window.uaPlayerSettings || "{}";
 	if (window.self === window.parent) {
 		// we're not in an iframe
-		returnStr = window.localStorage.getItem("game-settings") ?? "{}";
+		returnStr = window.localStorage.getItem("game-settings") || "{}";
 	}
 	if (!window.uaPlayerSettingsInit) {
 		window.uaPlayerSettingsInit = true;
