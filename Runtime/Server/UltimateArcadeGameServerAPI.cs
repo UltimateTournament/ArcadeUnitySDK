@@ -5,9 +5,8 @@ using Arcade.UnitySDK.Server.Model;
 using System.Text;
 using Newtonsoft.Json;
 using UnityEngine;
-using Assets.Scripts.Core;
 
-namespace UltimateArcade.Server
+namespace UltimateArcade
 {
     public class UltimateArcadeGameServerAPI
     {
