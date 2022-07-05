@@ -21,6 +21,21 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         WITH_V: true
         DEFAULT_BUMP: patch
+    - run: |
+        v=$(git tag --list 'v*' --points-at HEAD 2>/dev/null | head -n1 | sed 's/v//')
+        cat package.json | jq ". += {\"version\": \"$v\"}" > package.json.new
+        mv -f package.json.new package.json
+    - name: Commit files
+      run: |
+        git config --local user.email "bot@ultimatetournament.io"
+        git config --local user.name "ua-builder[bot]"
+        git add package.json
+        git commit -m "Update package version"
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
     - name: Run GoReleaser
       uses: goreleaser/goreleaser-action@v2
       with:
