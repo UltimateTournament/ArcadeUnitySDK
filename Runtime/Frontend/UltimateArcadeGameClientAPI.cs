@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using UnityEngine.Networking;
 
-namespace UltimateArcade.Frontend
+namespace UltimateArcade
 {
     public class UltimateArcadeGameClientAPI
     {

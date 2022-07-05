@@ -5,7 +5,7 @@ using System.Threading;
 using UnityEngine;
 
 
-namespace Assets.Scripts.Core
+namespace UltimateArcade
 {
     public class ExternalScriptBehavior
     {
