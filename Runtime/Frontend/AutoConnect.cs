@@ -7,7 +7,7 @@ using System.Collections;
 
 namespace UltimateArcade
 {
-    public class AutoConnect : MonoBehaviour
+    public class AutoConnect : NetworkBehaviour
     {
 
         /// <summary>
