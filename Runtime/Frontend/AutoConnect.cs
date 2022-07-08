@@ -18,6 +18,9 @@ namespace UltimateArcade
 
         public static string PlayerToken { get; set; }
 
+        protected UltimateArcadeGameServerAPI serverApi { private set; get; }
+        protected UltimateArcadeGameClientAPI clientApi { private set; get; }
+
         public delegate void ClientReady(string token);
         private static ClientReady _clientReady;
         public static event ClientReady OnClientReady
@@ -55,10 +58,10 @@ namespace UltimateArcade
         }
 
 
-#if UNITY_WEBGL
 
         void Start()
         {
+#if UNITY_WEBGL
             StartCoroutine(this.initClient(0));
 
             var nm = this.GetComponent<NetworkManager>();
@@ -68,6 +71,19 @@ namespace UltimateArcade
             nm.networkAddress = ExternalScriptBehavior.Hostname();
             UADebug.Log("Will connect to " + nm.networkAddress + ":" + swt.port);
             nm.StartClient();
+#else
+            var nm = this.GetComponent<NetworkManager>();
+            var swt = this.GetComponent<SimpleWebTransport>();
+            var portStr = Environment.GetEnvironmentVariable("PORT");
+            if (portStr != null)
+            {
+                var port = int.Parse(portStr);
+                swt.port = (ushort)port;
+            }
+            nm.StartServer();
+            this.serverApi = new UltimateArcadeGameServerAPI();
+            StartCoroutine(this.initServer(0));
+#endif
         }
 
         private IEnumerator initClient(float waitTime)
@@ -82,36 +98,23 @@ namespace UltimateArcade
             else
             {
                 UADebug.Log("got token " + PlayerToken);
-                _clientReady?.Invoke(PlayerToken);
+                this.clientApi = new UltimateArcadeGameClientAPI(PlayerToken, ExternalScriptBehavior.BaseApiServerName());
+                onClientReady();
             }
         }
 
-#else
-
-        private UltimateArcadeGameServerAPI api; 
-
-        void Start()
+        protected void onClientReady()
         {
-            var nm = this.GetComponent<NetworkManager>();
-            var swt = this.GetComponent<SimpleWebTransport>();
-            var portStr = Environment.GetEnvironmentVariable("PORT");
-            if (portStr != null)
-            {
-                var port = int.Parse(portStr);
-                swt.port = (ushort)port;
-            }
-            nm.StartServer();
-            this.api = new UltimateArcadeGameServerAPI();
-            StartCoroutine(this.init(0));
+            _clientReady?.Invoke(PlayerToken);
         }
 
-        private IEnumerator init(float waitTime)
+        private IEnumerator initServer(float waitTime)
         {
             yield return new WaitForSeconds(waitTime);
-            yield return api.Init(this.onServerReady, this.onServerNotReady);
+            yield return serverApi.Init(this.onServerReady, this.onServerNotReady);
         }
 
-        private void onServerReady(ServerData obj)
+        protected void onServerReady(ServerData obj)
         {
             UADebug.Log("random seed: " + obj.RandomSeed);
             RandomSeed = obj.RandomSeed;
@@ -120,9 +123,8 @@ namespace UltimateArcade
 
         private void onServerNotReady(string obj)
         {
-            StartCoroutine(this.init(1));
+            StartCoroutine(this.initServer(1));
         }
-#endif
 
     }
 }
