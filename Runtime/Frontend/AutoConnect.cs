@@ -103,7 +103,7 @@ namespace UltimateArcade
             }
         }
 
-        protected void onClientReady()
+        protected virtual void onClientReady()
         {
             _clientReady?.Invoke(PlayerToken);
         }
@@ -114,7 +114,7 @@ namespace UltimateArcade
             yield return serverApi.Init(this.onServerReady, this.onServerNotReady);
         }
 
-        protected void onServerReady(ServerData obj)
+        protected virtual void onServerReady(ServerData obj)
         {
             UADebug.Log("random seed: " + obj.RandomSeed);
             RandomSeed = obj.RandomSeed;
